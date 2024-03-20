@@ -1,24 +1,25 @@
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Sidebar Layout',
+      title: 'Portfolio',
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MainLayout(),
+          primarySwatch: Colors.grey,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'roboto'),
+      home: const MainLayout(),
     );
   }
 }
@@ -43,7 +44,7 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 700) {
+        if (constraints.maxWidth < 800) {
           return _buildWithSideBar();
         } else {
           return _buildDrawer();
@@ -56,15 +57,13 @@ class _MainLayoutState extends State<MainLayout> {
     return Scaffold(
       body: Row(
         children: [
-          // Sidebar
           Expanded(
             flex: 1,
             child: ListView(
-              padding: EdgeInsets.zero,
               children: <Widget>[
                 DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
                   ),
                   child: Container(
                     width: 100,
@@ -72,42 +71,45 @@ class _MainLayoutState extends State<MainLayout> {
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage("lib/image/profile.jpg"),
+                          image: AssetImage("lib/image/profile.png"),
                           fit: BoxFit.contain),
                     ),
                   ),
                 ),
-                ListTile(
-                  title: const Text('Home'),
-                  onTap: () => _changePage(1),
-                  selected: _selectedPage == 1,
-                  selectedTileColor: Colors.blue[100],
+                Card(
+                  margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  child: ListTile(
+                    title: const Text('Home'),
+                    onTap: () => _changePage(1),
+                    selected: _selectedPage == 1,
+                    selectedTileColor: Colors.grey[200],
+                  ),
                 ),
                 ListTile(
                   title: const Text('Resume'),
                   onTap: () => _changePage(2),
                   selected: _selectedPage == 2,
-                  selectedTileColor: Colors.blue[100],
+                  selectedTileColor: Colors.grey[200],
                 ),
                 ListTile(
                   title: const Text('Project'),
                   onTap: () => _changePage(3),
                   selected: _selectedPage == 3,
-                  selectedTileColor: Colors.blue[100],
+                  selectedTileColor: Colors.grey[200],
                 ),
               ],
             ),
           ),
           // Page content
           Expanded(
-            flex: 4, // Adjust flex as needed
+            flex: 3, // Adjust flex as needed
             child: Container(
               color: Colors.white,
               child: _selectedPage == 1
                   ? PageOneContent()
                   : _selectedPage == 2
-                      ? PageTwoContent()
-                      : PageThreeContent(),
+                      ? const PageTwoContent()
+                      : const PageThreeContent(),
             ),
           ),
         ],
@@ -118,7 +120,7 @@ class _MainLayoutState extends State<MainLayout> {
   Widget _buildWithSideBar() {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meok Khem'),
+        title: const Text('Portfolio'),
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -126,8 +128,8 @@ class _MainLayoutState extends State<MainLayout> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
               ),
               child: Container(
                 width: 100,
@@ -135,7 +137,7 @@ class _MainLayoutState extends State<MainLayout> {
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                      image: AssetImage("lib/image/profile.jpg"),
+                      image: AssetImage("lib/image/profile.png"),
                       fit: BoxFit.contain),
                 ),
               ),
@@ -144,19 +146,19 @@ class _MainLayoutState extends State<MainLayout> {
               title: const Text('Home'),
               onTap: () => _changePage(1),
               selected: _selectedPage == 1,
-              selectedTileColor: Colors.blue[100],
+              selectedTileColor: Colors.grey[200],
             ),
             ListTile(
               title: const Text('Resume'),
               onTap: () => _changePage(2),
               selected: _selectedPage == 2,
-              selectedTileColor: Colors.blue[100],
+              selectedTileColor: Colors.grey[200],
             ),
             ListTile(
               title: const Text('Project'),
               onTap: () => _changePage(3),
               selected: _selectedPage == 3,
-              selectedTileColor: Colors.blue[100],
+              selectedTileColor: Colors.grey[200],
             ),
           ],
         ),
@@ -166,21 +168,19 @@ class _MainLayoutState extends State<MainLayout> {
         child: _selectedPage == 1
             ? PageOneContent()
             : _selectedPage == 2
-                ? PageTwoContent()
-                : PageThreeContent(),
+                ? const PageTwoContent()
+                : const PageThreeContent(),
       ),
     );
   }
 }
 
 class PageOneContent extends StatelessWidget {
-  const PageOneContent({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity, // Full height
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+      height: double.infinity,
+      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -190,26 +190,33 @@ class PageOneContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header: Name and Job Title
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                          height: MediaQuery.of(context).size.width > 800
+                              ? 25
+                              : 15),
                       Text(
                         'Meok Khem',
                         style: TextStyle(
-                            fontSize: 50,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                          fontSize:
+                              MediaQuery.of(context).size.width > 800 ? 50 : 25,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      SizedBox(height: 20),
                       Text(
                         'Back-end Developer',
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: MediaQuery.of(context).size.width > 800
+                                ? 40
+                                : 25,
                             color: Colors.black,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 20),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         "I'm a Back-end developer with over 2 years of experience in development, teaching, and management. I also have experience with Full-stack web applications.",
                         style: TextStyle(fontSize: 14),
                         textAlign: TextAlign.start,
@@ -217,7 +224,9 @@ class PageOneContent extends StatelessWidget {
                     ],
                   ),
                   // Main Content
-                  const SizedBox(height: 50),
+                  SizedBox(
+                      height:
+                          MediaQuery.of(context).size.width > 800 ? 50 : 30),
                   // Social Media Icons
                   Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -228,9 +237,11 @@ class PageOneContent extends StatelessWidget {
                           onPressed: () {
                             // Add functionality for git profile
                           },
-                          icon: const ImageIcon(
-                            AssetImage("lib/image/git.png"),
-                            size: 70,
+                          icon: ImageIcon(
+                            const AssetImage("lib/image/git.png"),
+                            size: MediaQuery.of(context).size.width > 800
+                                ? 70
+                                : 55,
                             color: Colors.black,
                           ),
                         ),
@@ -239,9 +250,11 @@ class PageOneContent extends StatelessWidget {
                           onPressed: () {
                             // Add functionality for Twitter profile
                           },
-                          icon: const ImageIcon(
-                            AssetImage("lib/image/telegram.png"),
-                            size: 70,
+                          icon: ImageIcon(
+                            const AssetImage("lib/image/telegram.png"),
+                            size: MediaQuery.of(context).size.width > 800
+                                ? 70
+                                : 55,
                             color: Colors.black,
                           ),
                         ),
@@ -250,9 +263,11 @@ class PageOneContent extends StatelessWidget {
                           onPressed: () {
                             // Add functionality for LinkedIn profile
                           },
-                          icon: const ImageIcon(
-                            AssetImage("lib/image/mail.png"),
-                            size: 70,
+                          icon: ImageIcon(
+                            const AssetImage("lib/image/mail.png"),
+                            size: MediaQuery.of(context).size.width > 800
+                                ? 70
+                                : 55,
                             color: Colors.black,
                           ),
                         ),
@@ -285,10 +300,25 @@ class PageTwoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Coming soon!',
-        style: TextStyle(fontSize: 14),
+    return Container(
+      height: double.infinity,
+      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Profile'),
+                  Text(
+                      "I'm a Back-end developer with over 2 years of experience in development, teaching, and management. I also have experience with Full-stack web applications.")
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
