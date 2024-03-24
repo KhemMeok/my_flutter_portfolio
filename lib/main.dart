@@ -1,14 +1,19 @@
+// ignore: unused_import, avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import './custom_widget/app_colors.dart';
+import './custom_widget/responsive.dart';
+import 'pageContent/home_page.dart';
+import 'pageContent/project_page.dart';
+import 'pageContent/resume_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Portfolio',
       theme: ThemeData(
-          primarySwatch: Colors.grey,
+          primarySwatch: Colors.lightGreen,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           fontFamily: 'roboto'),
       home: const MainLayout(),
@@ -28,6 +33,7 @@ class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MainLayoutState createState() => _MainLayoutState();
 }
 
@@ -60,10 +66,11 @@ class _MainLayoutState extends State<MainLayout> {
           Expanded(
             flex: 1,
             child: ListView(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               children: <Widget>[
                 DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
                   ),
                   child: Container(
                     width: 100,
@@ -71,42 +78,63 @@ class _MainLayoutState extends State<MainLayout> {
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage("lib/image/profile.png"),
-                          fit: BoxFit.contain),
+                        image: AssetImage("lib/image/profile.png"),
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
-                Card(
-                  margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: ListTile(
-                    title: const Text('Home'),
-                    onTap: () => _changePage(1),
-                    selected: _selectedPage == 1,
-                    selectedTileColor: Colors.grey[200],
+                ListTile(
+                  title: Text('Home',
+                      style: TextStyle(
+                          color: AppColors.textColor,
+                          fontSize: Responsive.fontSizeContent(context),
+                          fontWeight: FontWeight.bold)),
+                  onTap: () => _changePage(1),
+                  selected: _selectedPage == 1,
+                  selectedTileColor: Colors.grey[200],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
                 ListTile(
-                  title: const Text('Resume'),
+                  title: Text('Resume',
+                      style: TextStyle(
+                          color: AppColors.textColor,
+                          fontSize: Responsive.fontSizeContent(context),
+                          fontWeight: FontWeight.bold)),
                   onTap: () => _changePage(2),
                   selected: _selectedPage == 2,
                   selectedTileColor: Colors.grey[200],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
                 ),
                 ListTile(
-                  title: const Text('Project'),
+                  title: Text('Project',
+                      style: TextStyle(
+                          color: AppColors.textColor,
+                          fontSize: Responsive.fontSizeContent(context),
+                          fontWeight: FontWeight.bold)),
                   onTap: () => _changePage(3),
                   selected: _selectedPage == 3,
                   selectedTileColor: Colors.grey[200],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
                 ),
               ],
             ),
           ),
-          // Page content
           Expanded(
-            flex: 3, // Adjust flex as needed
+            flex: 3,
             child: Container(
               color: Colors.white,
               child: _selectedPage == 1
-                  ? PageOneContent()
+                  ? const PageOneContent()
                   : _selectedPage == 2
                       ? const PageTwoContent()
                       : const PageThreeContent(),
@@ -120,22 +148,30 @@ class _MainLayoutState extends State<MainLayout> {
   Widget _buildWithSideBar() {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Portfolio'),
+        title: Text('Portfolio',
+            style: TextStyle(
+                color: AppColors.textColor,
+                fontSize: Responsive.fontSizeContent(context),
+                fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       drawer: Drawer(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
         child: ListView(
-          padding: EdgeInsets.zero,
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
+              decoration: const BoxDecoration(
+                color: Colors.white,
               ),
               child: Container(
                 width: 100,
                 height: 100,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
+                  border: Border(bottom: BorderSide(color: Colors.transparent)),
                   image: DecorationImage(
                       image: AssetImage("lib/image/profile.png"),
                       fit: BoxFit.contain),
@@ -143,22 +179,46 @@ class _MainLayoutState extends State<MainLayout> {
               ),
             ),
             ListTile(
-              title: const Text('Home'),
+              title: Text('Home',
+                  style: TextStyle(
+                      color: AppColors.textColor,
+                      fontSize: Responsive.fontSizeContent(context),
+                      fontWeight: FontWeight.bold)),
               onTap: () => _changePage(1),
               selected: _selectedPage == 1,
               selectedTileColor: Colors.grey[200],
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
             ListTile(
-              title: const Text('Resume'),
+              title: Text('Resume',
+                  style: TextStyle(
+                      color: AppColors.textColor,
+                      fontSize: Responsive.fontSizeContent(context),
+                      fontWeight: FontWeight.bold)),
               onTap: () => _changePage(2),
               selected: _selectedPage == 2,
               selectedTileColor: Colors.grey[200],
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
             ListTile(
-              title: const Text('Project'),
+              title: Text('Project',
+                  style: TextStyle(
+                      color: AppColors.textColor,
+                      fontSize: Responsive.fontSizeContent(context),
+                      fontWeight: FontWeight.bold)),
               onTap: () => _changePage(3),
               selected: _selectedPage == 3,
               selectedTileColor: Colors.grey[200],
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
           ],
         ),
@@ -166,173 +226,10 @@ class _MainLayoutState extends State<MainLayout> {
       body: Container(
         color: Colors.white,
         child: _selectedPage == 1
-            ? PageOneContent()
+            ? const PageOneContent()
             : _selectedPage == 2
                 ? const PageTwoContent()
                 : const PageThreeContent(),
-      ),
-    );
-  }
-}
-
-class PageOneContent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header: Name and Job Title
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.width > 800
-                              ? 25
-                              : 15),
-                      Text(
-                        'Meok Khem',
-                        style: TextStyle(
-                          fontSize:
-                              MediaQuery.of(context).size.width > 800 ? 50 : 25,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Back-end Developer',
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width > 800
-                                ? 40
-                                : 25,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "I'm a Back-end developer with over 2 years of experience in development, teaching, and management. I also have experience with Full-stack web applications.",
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  // Main Content
-                  SizedBox(
-                      height:
-                          MediaQuery.of(context).size.width > 800 ? 50 : 30),
-                  // Social Media Icons
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            // Add functionality for git profile
-                          },
-                          icon: ImageIcon(
-                            const AssetImage("lib/image/git.png"),
-                            size: MediaQuery.of(context).size.width > 800
-                                ? 70
-                                : 55,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () {
-                            // Add functionality for Twitter profile
-                          },
-                          icon: ImageIcon(
-                            const AssetImage("lib/image/telegram.png"),
-                            size: MediaQuery.of(context).size.width > 800
-                                ? 70
-                                : 55,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () {
-                            // Add functionality for LinkedIn profile
-                          },
-                          icon: ImageIcon(
-                            const AssetImage("lib/image/mail.png"),
-                            size: MediaQuery.of(context).size.width > 800
-                                ? 70
-                                : 55,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Footer
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: const Center(
-              child: Text(
-                'Developed by Meok Khem, using @Flutter',
-                style: TextStyle(fontSize: 14),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class PageTwoContent extends StatelessWidget {
-  const PageTwoContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Profile'),
-                  Text(
-                      "I'm a Back-end developer with over 2 years of experience in development, teaching, and management. I also have experience with Full-stack web applications.")
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class PageThreeContent extends StatelessWidget {
-  const PageThreeContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Coming soon!',
-        style: TextStyle(fontSize: 14),
       ),
     );
   }
